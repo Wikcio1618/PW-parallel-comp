@@ -20,7 +20,7 @@ public class MandelbrotImage {
         this.image = new BufferedImage(xPixels, yPixels, BufferedImage.TYPE_INT_RGB);
     }
 
-    public int[][] computeMandelbrotBlock(double startX, double endX, double startY, double endY, int width, int height) {
+    private int[][] computeMandelbrotBlock(double startX, double endX, double startY, double endY, int width, int height) {
         final int maxIter = 1000;
         int[][] colors = new int[height][width];
 
@@ -50,16 +50,24 @@ public class MandelbrotImage {
     }
 
     // Funkcja generująca obraz Mandelbrota
-    public BufferedImage generateMandelbrotSeqeuntial(int width, int height) {
+    public void generateMandelbrotSeqeuntial() {
         int[][] colors = computeMandelbrotBlock(MandelbrotImage.xMin, MandelbrotImage.xMax, MandelbrotImage.yMin, MandelbrotImage.yMax, xPixels, yPixels);
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < height; i++) {
+        for (int i = 0; i < yPixels; i++) {
+            for (int j = 0; j < xPixels; i++) {
                 image.setRGB(i, j, colors[i][j]);
             }
         }
+    }
 
-        return image;
+    public void generateMandelbrotMultithread() {
+        int numWorkers = Runtime.getRuntime().availableProcessors();
+        Thread[] workers = new Thread[numWorkers];
+        for (int i = 0; i < numWorkers; i++) {
+            double startX = MandelbrotImage.xMin + (MandelbrotImage.xMax - MandelbrotImage.xMin) / numWorkers * i;
+            // workers[i] = new Thread(() -> computeMandelbrotBlock(xMax, xMax, xMax, xMin, i, i));
+        }
+        // TODO
     }
 
     // Funkcja do pomiaru czasu i uśrednienia
