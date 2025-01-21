@@ -1,0 +1,13 @@
+# Ignore output folder
+bin/
+
+# Ignore dependency libraries
+lib/
+
+# Ignore IDE-specific files
+*.iml
+.idea/
+.vscode/
+
+*.MF
+**/*.jar
